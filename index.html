@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SOMETHING</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="main.css">
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+	</head>
+	<body>
+		<div id="hdr">
+			<h1>THE DAILY TRUMP</h1>
+			<div id="subhdr">
+				a news aggregator
+			</div>
+		</div>
+
+		<img class="icon" src="trump-icon.png">
+		<img class="icon" style="right:0px;" src="trump-icon.png">
+			
+		<div class="main container-fluid">
+			
+			<div class="row">
+				<div class="col-md-4 cols" id="first">
+				</div>
+				<div class="col-md-4 cols" id="second">
+					<div class="twitter-block">
+						<a class="twitter-timeline" data-link-color="#000" data-theme="light" height="500" href="https://twitter.com/realdonaldtrump" data-chrome="noheader nofooter nofooter noborders"></a>
+					</div>
+					<div id = "pfact">
+					</div>
+				</div>
+				<div class="col-md-4 cols" id="third">
+					
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			Information aggregated from NYT, Politifact, Fox News &amp; Twitter
+		</div>
+		<script type="text/javascript" src="index.js"></script>
+	</body>
+</html>
