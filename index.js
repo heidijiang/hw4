@@ -87,24 +87,16 @@ let pluginCNN = function(result) {
 
 
 let newsWrapper = function() {
-	let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-	url += '?' + $.param({
-	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
-	  'q': "trump",
-	  'sort': "newest",
-	  'fq': "source: (\"The New York Times\")",
-	});
-	let req = new Request(url);
-	fetch(req).then(convertoJson).then(pluginNYT).catch(displayError);
 
-	url = 'https://newsapi.org/v2/everything?' +
+	let url = 'https://newsapi.org/v2/everything?' +
           'q=trump&' +
           'language=en&' +
           'sources=fox-news&' +
           'sortBy=publishedAt&' +
-          'apiKey=35f81e90dd81401ba1b70c28895e226a';
-	req = new Request(url);
-	fetch(req,{mode: 'no-cors'}).then(convertoJson).then(pluginFox).catch(displayError);
+          'apiKey=98822d390f2f45fe99670d23f6325ef6';
+    
+	let req = new Request(url);
+	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginFox).catch(displayError);
 
 	// url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
 	url = 'https://newsapi.org/v2/everything?' +
@@ -112,18 +104,27 @@ let newsWrapper = function() {
           'language=en&' +
           'sources=cnn&' +
           'sortBy=publishedAt&' +
-          'apiKey=35f81e90dd81401ba1b70c28895e226a';
+          'apiKey=98822d390f2f45fe99670d23f6325ef6';
 	req = new Request(url);
-	fetch(req,{mode: 'no-cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
+	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
+
+	url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+	url += '?' + $.param({
+	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
+	  'q': "trump",
+	  'sort': "newest",
+	  'fq': "source: (\"The New York Times\")",
+	});
+	req = new Request(url);
+	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginNYT).catch(displayError);
 
 	$(windowHeight)
 }
 
 let displayError = function(err, status, msg) {
-  console.debug(err)
+  console.log(err)
   console.debug(status)
   console.debug(msg)
-  window.alert("Sorry, something went wrong.")
 }
 
 let convertoJson = function(result) {
