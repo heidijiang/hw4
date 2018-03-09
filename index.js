@@ -105,7 +105,7 @@ let foxWrapper = function() {
 }
 
 let pfactWrapper = function() {
-	let url = 'http://politifact.com/api/statements/truth-o-meter/people/donald-trump/json/?n=8&callback=?'
+	let url = 'https://politifact.com/api/statements/truth-o-meter/people/donald-trump/json/?n=8&callback=?'
 	$.getJSON(url,function(data) {
 		let pf = $("#pfact").html();
 		$.each(data, function(index,item){
@@ -114,7 +114,6 @@ let pfactWrapper = function() {
 			txt += "<span class=\"nytTitle\"><a href=\"http://politifact.com/"+ item.statement_url + "\">" + item.statement_context + " by " + item.speaker.first_name + " " + item.speaker.last_name 
 			+ " on " + item.statement_date + "</a></span></div>";
 			txt += "<div class=\"snippet\">" + item.statement + "</div></div>";
-			txt += "<p></p>";
 			pf = pf + txt;
 			$("#pfact").html(pf);
         })

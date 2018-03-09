@@ -36,7 +36,7 @@ h1 {
     text-align: center;
     margin-top:90px;
     position: fixed;
-    z-index: -1;
+    z-index: 1;
 }
 
 
@@ -46,9 +46,10 @@ h1 {
 .main {
     top: 200px;
     position: relative;
-    border-top: 2px solid black;
+    border-top: 4px double black;
     text-align: justify;
     background-color:#fff1e9;
+    z-index:99;
 
 }
 
@@ -70,6 +71,14 @@ h1 {
 .icon {
     width: 100px;
     position: fixed;
+}
+
+.icon2 {
+    width: 10%;
+    position: fixed;
+    left: 45%;
+    top: 30px;
+    z-index: -1;
 }
 
 .article {
