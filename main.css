@@ -111,7 +111,7 @@ h1 {
 .fox {
     background-color: #d4451a;
 }
-@media (max-width:800px) {
+@media (max-width:900px) {
     .article2 {
         flex-direction: column;
         padding-left: 0px;

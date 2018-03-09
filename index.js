@@ -98,6 +98,7 @@ let foxWrapper = function() {
 	let url = 'https://newsapi.org/v2/everything?' +
           'q=trump&' +
           'sources=fox-news&' +
+          'sortBy=publishedAt&' +
           'apiKey=35f81e90dd81401ba1b70c28895e226a';
 	let req = new Request(url);
 	fetch(req).then(convertoJson).then(pluginFox).catch(displayError);
