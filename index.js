@@ -43,13 +43,13 @@ let pluginNYT = function(result) {
 			$("#first").html(nyt_col);
 		}
 	}
-	$(windowHeight)
 }
 
 let pluginFox = function(result) {
 	let fox_col = $("#third").html();
-	
-	for (let i = 0; i < result.articles.length; ++i) {
+	let l = result.articles.length;
+	if (l > 10) l = 10;
+	for (let i = 0; i < l; ++i) {
 		let item = result.articles[i];
 		let headline = item.title;
 		let url = item.url;
@@ -62,50 +62,10 @@ let pluginFox = function(result) {
 			fox_col = fox_col + txt;
 			$("#third").html(fox_col);
 		}
-
 	}
-
 }
 
-let NYTwrapper = function(p) {
-	let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-	url += '?' + $.param({
-	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
-	  'q': "trump",
-	  'sort': "newest",
-	  'fq': "source: (\"The New York Times\")",
-	  'page': p
-	});
-	$.ajax({
-	  url: url,
-	  method: 'GET',
-	}).done(function(result) {
-	  pluginNYT(result);
-	}).fail(function(err) {
-	  throw err;
-	});
-}
-
-let twitterStyle = function() {
-	$(".twitter-block").css("padding","10px");
-	$(".twitter-block").css("background-color","white");
-	$(".twitter-block").css("border","1px solid black");
-	$(".twitter-block").css("margin-bottom","20px");
-	// $(".twitter-block").width($("#first").width());
-}
-
-let foxWrapper = function() {
-	let url = 'https://newsapi.org/v2/everything?' +
-          'q=trump&' +
-          'sources=fox-news&' +
-          'sortBy=publishedAt&' +
-          'apiKey=35f81e90dd81401ba1b70c28895e226a';
-	let req = new Request(url);
-	fetch(req).then(convertoJson).then(pluginFox).catch(displayError);
-}
-
-let pfactWrapper = function() {
-	let url = 'http://politifact.com/api/statements/truth-o-meter/people/donald-trump/json/?n=8&callback=?'
+let pluginCNN = function() {
 	$.getJSON(url,function(data) {
 		let pf = $("#pfact").html();
 		$.each(data, function(index,item){
@@ -119,6 +79,33 @@ let pfactWrapper = function() {
         })
     })
 }
+
+let newsWrapper = function() {
+	let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+	url += '?' + $.param({
+	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
+	  'q': "trump",
+	  'sort': "newest",
+	  'fq': "source: (\"The New York Times\")",
+	});
+	let req = new Request(url);
+	fetch(req, {mode:'cors'}).then(convertoJson).then(pluginNYT).catch(displayError);
+
+	url = 'https://newsapi.org/v2/everything?' +
+          'q=trump&' +
+          'sources=fox-news&' +
+          'sortBy=publishedAt&' +
+          'apiKey=35f81e90dd81401ba1b70c28895e226a';
+	req = new Request(url);
+	fetch(req).then(convertoJson).then(pluginFox).catch(displayError);
+
+	url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
+	req = new Request(url);
+	// fetch(req, {mode:'no-cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
+
+	$(windowHeight)
+}
+
 let displayError = function(err, status, msg) {
   console.debug(err)
   console.debug(status)
@@ -130,11 +117,14 @@ let convertoJson = function(result) {
 	return result.json();
 }
 
-//35f81e90dd81401ba1b70c28895e226a
+let twitterStyle = function() {
+	$(".twitter-block").css("padding","10px");
+	$(".twitter-block").css("background-color","white");
+	$(".twitter-block").css("border","1px solid black");
+	$(".twitter-block").css("margin-bottom","20px");
+	// $(".twitter-block").width($("#first").width());
+}
 
-
-$(NYTwrapper(0));
-$(foxWrapper);
-$(pfactWrapper);
+$(newsWrapper);
 $(twitterStyle);
 $(document).resize(twitterStyle)

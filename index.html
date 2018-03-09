@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<title>SOMETHING</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<link rel="stylesheet" href="main.css">
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -14,7 +13,7 @@
 		<div id="hdr">
 			<h1>THE DAILY TRUMP</h1>
 			<div id="subhdr">
-				a news aggregator
+				an aggregator that barfs up all things Trump
 			</div>
 		</div>
 		<img class="icon2" src="icon2.png">
@@ -25,16 +24,33 @@
 			
 			<div class="row">
 				<div class="col-md-4 cols" id="first">
+					<div class="article nyt">
+						<h2>THE NEW YORK TIMES</h2>
+					</div>
 				</div>
 				<div class="col-md-4 cols" id="second">
+					<div class="article">
+						<h2>TWITTER</h2>
+					</div>
 					<div class="twitter-block">
 						<a class="twitter-timeline" data-link-color="#000" data-theme="light" height="500" href="https://twitter.com/realdonaldtrump" data-chrome="noheader nofooter nofooter noborders"></a>
+					</div>
+					<div style="margin-bottom: 20px">
+						<img src="ad1.jpg" width="100%" style="border:1px solid black">
+					</div>
+					<div style="margin-bottom: 20px">
+						<img src="ad2.jpg" width="100%" style="border:1px solid black">
+					</div>
+					<div class="article">
+						<h2>CNN</h2>
 					</div>
 					<div id = "pfact">
 					</div>
 				</div>
 				<div class="col-md-4 cols" id="third">
-					
+					<div class="article fox">
+						<h2>FOX NEWS</h2>
+					</div>
 				</div>
 			</div>
 		</div>
