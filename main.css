@@ -117,15 +117,11 @@ h2 {
     border: 1px solid black;
 }
 
-.foxImg {
+.img {
     border: 1px solid black;
     width: 80px;
 }
 
-.CNNImg {
-    width: 80px;
-
-}
 .snippet {
     margin-top: 10px;
 }
@@ -134,8 +130,19 @@ h2 {
     background-color: #54728c;
 }
 
-.fox {
+.the-washington-post {
+    background-color: #9caab1;
+}
+.fox-news {
     background-color: #d4451a;
+}
+
+.breitbart-news {
+    background-color: #73250e;
+}
+
+.twt {
+    background-color: black;
 }
 @media (max-width:900px) {
     .article2 {

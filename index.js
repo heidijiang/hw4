@@ -21,9 +21,11 @@ let windowHeight = function() {
 }
 
 
-let pluginNYT = function(result) {
-	let nyt_col = $("#first").html();
-	for (let i = 0; i < result.response.docs.length; ++i) {
+let fillNYT = function(result) {
+	let nyt_col = $("#nyt").html();
+	let l = result.response.docs.length;
+	if (l > 5) l = 5;
+	for (let i = 0; i < l; ++i) {
 		let item = result.response.docs[i];
 		if (item.multimedia.length > 0) {
 			let headline = item.headline.main;
@@ -40,74 +42,50 @@ let pluginNYT = function(result) {
 			txt += "<span class=\"nytTitle\"><a href=\""+ url + "\">" + headline + "</a></span></div>";
 			txt += "<div class=\"snippet\">" + item.snippet + "</div></div>";
 			nyt_col = nyt_col + txt;
-			$("#first").html(nyt_col);
+			$("#nyt").html(nyt_col);
 		}
 	}
 }
 
-let pluginFox = function(result) {
-	let fox_col = $("#third").html();
+let fillNewsAPI = function(result) {
+	let source = result.articles[0].source.id;
+	let col = $("#"+source).html();
 	let l = result.articles.length;
-	if (l > 10) l = 10;
+	if (l > 5) l = 5;
 	for (let i = 0; i < l; ++i) {
 		let item = result.articles[i];
 		let headline = item.title;
 		let url = item.url;
 		let img = item.urlToImage;
 		if (img[0] == "h") {
-			let txt = "<div class=\"article fox\">";
-			txt += "<div class=\"article2\"><img class=\"foxImg\" src=\"" + img+"\">";
+			let txt = "<div class=\"article" + " " + source + "\">";
+			txt += "<div class=\"article2\"><img class=\"img\" src=\"" + img+"\">";
 			txt += "<span class=\"nytTitle\"><a href=\""+ url + "\">" + headline + "</a></span></div>";
 			txt += "<div class=\"snippet\">" + item.description + "</div></div>";
-			fox_col = fox_col + txt;
-			$("#third").html(fox_col);
+			col = col + txt;
+			$("#"+source).html(col);
 		}
 	}
 }
-
-let pluginCNN = function(result) {
-	let cnn_col = $("#cnn").html();
-	let l = result.articles.length;
-	if (l > 10) l = 10;
-	for (let i = 0; i < l; ++i) {
-		let item = result.articles[i];
-		let headline = item.title;
-		let url = item.url;
-		let img = item.urlToImage;
-		if (img[0] == "h") {
-			let txt = "<div class=\"article cnn\">";
-			txt += "<div class=\"article2\"><img class=\"foxImg\" src=\"" + img+"\">";
-			txt += "<span class=\"nytTitle\"><a href=\""+ url + "\">" + headline + "</a></span></div>";
-			txt += "<div class=\"snippet\">" + item.description + "</div></div>";
-			cnn_col = cnn_col + txt;
-			$("#cnn").html(cnn_col);
-		}
-	}
-}
-
 
 let newsWrapper = function() {
 
-	let url = 'https://newsapi.org/v2/everything?' +
-          'q=trump&' +
-          'language=en&' +
-          'sources=fox-news&' +
-          'sortBy=publishedAt&' +
-          'apiKey=98822d390f2f45fe99670d23f6325ef6';
-    
-	let req = new Request(url);
-	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginFox).catch(displayError);
+	let url, req;
+	let site = ["fox-news","cnn","breitbart-news","the-washington-post"];
+	
+	for (s of site) {
+		url = 'https://newsapi.org/v2/everything?' +
+	          'q=trump&' +
+	          'language=en&' +
+	          'sources='+ s + '&' +
+	          'sortBy=publishedAt&' +
+	          'apiKey=98822d390f2f45fe99670d23f6325ef6';
+	    
+		req = new Request(url);
+		fetch(req,{mode: 'cors'}).then(convertoJson).then(fillNewsAPI).catch(displayError);
+	}
 
 	// url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
-	url = 'https://newsapi.org/v2/everything?' +
-          'q=trump&' +
-          'language=en&' +
-          'sources=cnn&' +
-          'sortBy=publishedAt&' +
-          'apiKey=98822d390f2f45fe99670d23f6325ef6';
-	req = new Request(url);
-	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
-
 	url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 	url += '?' + $.param({
 	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
@@ -116,7 +94,7 @@ let newsWrapper = function() {
 	  'fq': "source: (\"The New York Times\")",
 	});
 	req = new Request(url);
-	fetch(req,{mode: 'cors'}).then(convertoJson).then(pluginNYT).catch(displayError);
+	fetch(req,{mode: 'cors'}).then(convertoJson).then(fillNYT).catch(displayError);
 
 	$(windowHeight)
 }
