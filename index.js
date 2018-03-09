@@ -104,7 +104,7 @@ let newsWrapper = function() {
           'sortBy=publishedAt&' +
           'apiKey=35f81e90dd81401ba1b70c28895e226a';
 	req = new Request(url);
-	fetch(req).then(convertoJson).then(pluginFox).catch(displayError);
+	fetch(req,{mode: 'no-cors'}).then(convertoJson).then(pluginFox).catch(displayError);
 
 	// url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
 	url = 'https://newsapi.org/v2/everything?' +
@@ -114,7 +114,7 @@ let newsWrapper = function() {
           'sortBy=publishedAt&' +
           'apiKey=35f81e90dd81401ba1b70c28895e226a';
 	req = new Request(url);
-	fetch(req).then(convertoJson).then(pluginCNN).catch(displayError);
+	fetch(req,{mode: 'no-cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
 
 	$(windowHeight)
 }
