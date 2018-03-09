@@ -75,7 +75,7 @@ let newsWrapper = function() {
 	
 	for (s of site) {
 		url = 'https://newsapi.org/v2/everything?' +
-	          'q=trump&' +
+	          'q=\"donald trump\"&' +
 	          'language=en&' +
 	          'sources='+ s + '&' +
 	          'sortBy=publishedAt&' +
@@ -117,6 +117,18 @@ let twitterStyle = function() {
 	// $(".twitter-block").width($("#first").width());
 }
 
+$(window).scroll(function() {
+    if ($(this).scrollTop() > 50){  
+        $('header').addClass("sticky");
+        $("#subhdr").hide();
+        $(".icon2").hide();
+    }
+    else{
+        $('header').removeClass("sticky");
+        $("#subhdr").show();
+        $(".icon2").show();
+    }
+});
 $(newsWrapper);
 $(twitterStyle);
 $(document).resize(twitterStyle)
