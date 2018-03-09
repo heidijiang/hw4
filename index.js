@@ -65,20 +65,26 @@ let pluginFox = function(result) {
 	}
 }
 
-let pluginCNN = function() {
-	$.getJSON(url,function(data) {
-		let pf = $("#pfact").html();
-		$.each(data, function(index,item){
-        	let txt = "<div class=\"article pfact\">";
-			txt += "<div class=\"article2\"><img class=\"pfactImg\" src=\"" + item.ruling.canonical_ruling_graphic+"\">";
-			txt += "<span class=\"nytTitle\"><a href=\"http://politifact.com/"+ item.statement_url + "\">" + item.statement_context + " by " + item.speaker.first_name + " " + item.speaker.last_name 
-			+ " on " + item.statement_date + "</a></span></div>";
-			txt += "<div class=\"snippet\">" + item.statement + "</div></div>";
-			pf = pf + txt;
-			$("#pfact").html(pf);
-        })
-    })
+let pluginCNN = function(result) {
+	let cnn_col = $("#cnn").html();
+	let l = result.articles.length;
+	if (l > 10) l = 10;
+	for (let i = 0; i < l; ++i) {
+		let item = result.articles[i];
+		let headline = item.title;
+		let url = item.url;
+		let img = item.urlToImage;
+		if (img[0] == "h") {
+			let txt = "<div class=\"article cnn\">";
+			txt += "<div class=\"article2\"><img class=\"foxImg\" src=\"" + img+"\">";
+			txt += "<span class=\"nytTitle\"><a href=\""+ url + "\">" + headline + "</a></span></div>";
+			txt += "<div class=\"snippet\">" + item.description + "</div></div>";
+			cnn_col = cnn_col + txt;
+			$("#cnn").html(cnn_col);
+		}
+	}
 }
+
 
 let newsWrapper = function() {
 	let url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
@@ -89,19 +95,26 @@ let newsWrapper = function() {
 	  'fq': "source: (\"The New York Times\")",
 	});
 	let req = new Request(url);
-	fetch(req, {mode:'cors'}).then(convertoJson).then(pluginNYT).catch(displayError);
+	fetch(req).then(convertoJson).then(pluginNYT).catch(displayError);
 
 	url = 'https://newsapi.org/v2/everything?' +
           'q=trump&' +
+          'language=en&' +
           'sources=fox-news&' +
           'sortBy=publishedAt&' +
           'apiKey=35f81e90dd81401ba1b70c28895e226a';
 	req = new Request(url);
 	fetch(req).then(convertoJson).then(pluginFox).catch(displayError);
 
-	url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
+	// url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
+	url = 'https://newsapi.org/v2/everything?' +
+          'q=trump&' +
+          'language=en&' +
+          'sources=cnn&' +
+          'sortBy=publishedAt&' +
+          'apiKey=35f81e90dd81401ba1b70c28895e226a';
 	req = new Request(url);
-	// fetch(req, {mode:'no-cors'}).then(convertoJson).then(pluginCNN).catch(displayError);
+	fetch(req).then(convertoJson).then(pluginCNN).catch(displayError);
 
 	$(windowHeight)
 }
