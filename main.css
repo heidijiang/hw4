@@ -53,12 +53,18 @@ h1 {
 }
 
 .cols {
-    /*border-right: 2px dotted black;*/
     padding-top: 40px;
-    padding-left: 30px;
-    padding-right: 30px;
     height: 100%;
 
+}
+
+#first {
+    padding-left: 30px;
+    padding-right: 20px;
+}
+#third {
+    padding-left: 20px;
+    padding-right: 30px;
 }
 
 .icon {
