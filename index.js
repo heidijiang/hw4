@@ -68,8 +68,28 @@ let fillNewsAPI = function(result) {
 	}
 }
 
+let fillReddit = function(result) {
+	let col = $("#reddit").html();
+	let l = result.data.children.length;
+	if (l > 5) l = 5;
+	for (let i = 0; i < l; ++i) {
+		let item = result.data.children[i].data;
+		let headline = item.title;
+		let url = "https://www.reddit.com/" + item.permalink;
+		let img = item.thumbnail;
+		if (img[0] == "h") {
+			let txt = "<div class=\"article reddit\">";
+			txt += "<div class=\"article2\"><img class=\"img\" src=\"" + img+"\">";
+			txt += "<span class=\"nytTitle\"><a href=\""+ url + "\">" + headline + "</a></span></div></div>";
+			col = col + txt;
+			$("#reddit").html(col);
+		}
+	}
+}
+
 let newsWrapper = function() {
 
+	// crawl various sources from newsAPI
 	let url, req;
 	let site = ["fox-news","cnn","breitbart-news","the-washington-post"];
 	
@@ -85,7 +105,12 @@ let newsWrapper = function() {
 		fetch(req,{mode: 'cors'}).then(convertoJson).then(fillNewsAPI).catch(displayError);
 	}
 
-	// url = 'https://services.cnn.com/newsgraph/search/description:trump/hasImage:true/source:cnn/language:en/rows:10/start:0/lastPublishDate,desc?api_key=66v94mw2atyzkd4nj6pnzfp7';
+	// then from reddit politics sub
+	url = "https://www.reddit.com/r/politics/search.json?q=trump&limit=5&sort=top&restrict_sr=1";
+	req = new Request(url);
+	fetch(req,{mode: 'cors'}).then(convertoJson).then(fillReddit).catch(displayError);
+
+	//then from NYT
 	url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 	url += '?' + $.param({
 	  'api-key': "f2dead0100cf489aa6556bc1cb017f36",
@@ -119,12 +144,12 @@ let twitterStyle = function() {
 
 $(window).scroll(function() {
     if ($(this).scrollTop() > 50){  
-        $('header').addClass("sticky");
+        $('header').addClass("animate");
         $("#subhdr").hide();
         $(".icon2").hide();
     }
     else{
-        $('header').removeClass("sticky");
+        $('header').removeClass("animate");
         $("#subhdr").show();
         $(".icon2").show();
     }
