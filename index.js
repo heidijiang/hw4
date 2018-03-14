@@ -106,7 +106,7 @@ let newsWrapper = function() {
 	}
 
 	// then from reddit politics sub
-	url = "https://www.reddit.com/r/politics/search.json?q=trump&limit=5&sort=top&restrict_sr=1";
+	url = "https://www.reddit.com/r/politics/search.json?q=trump&limit=5&sort=hot&restrict_sr=1";
 	req = new Request(url);
 	fetch(req,{mode: 'cors'}).then(convertoJson).then(fillReddit).catch(displayError);
 

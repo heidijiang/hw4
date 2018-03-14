@@ -92,7 +92,7 @@ header {
 .icon {
     width: 10%;
     position: fixed;
-    z-index: 99;
+    z-index: 98;
 }
 
 .icon2 {
@@ -158,6 +158,11 @@ header {
 
 .twt {
     background-color: black;
+}
+
+#poop {
+    position: fixed;
+    z-index:99;
 }
 @media (max-width:900px) {
     .article2 {
